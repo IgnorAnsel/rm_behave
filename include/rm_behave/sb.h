@@ -25,19 +25,24 @@ public:
     // 订阅裁判系统信息
     robot_status_sub_ = this->create_subscription<rm_decision_interfaces::msg::RobotStatus>(
         "/robot_status", 1, std::bind(&AutoFSM::robotStatusCallback, this, std::placeholders::_1));
+    // 也许取消下面这个能降低负担？
     robot_hp_sub_ = this->create_subscription<rm_decision_interfaces::msg::AllRobotHP>(
         "/robot_hp", 1, std::bind(&AutoFSM::robotHpCallback, this, std::placeholders::_1));
-    enemy_locate_sub_ = this->create_subscription<rm_decision_interfaces::msg::FriendLocation>(
-        "/friend_location", 1, std::bind(&AutoFSM::enemyLocateCallback, this, std::placeholders::_1));
+    // enemy_locate_sub_ = this->create_subscription<rm_decision_interfaces::msg::FriendLocation>(
+    //     "/friend_location", 1, std::bind(&AutoFSM::enemyLocateCallback, this, std::placeholders::_1)); // 联盟赛不需要
     // armor_sub_ = this->create_subscription<rm_decision_interfaces::msg::Armor>(
-    //     "/detector/armors", 1, std::bind(&AutoFSM::armorCallback, this, std::placeholders::_1));
-    rfid_sub_ = this->create_subscription<rm_decision_interfaces::msg::RFID>(
-        "/rfid", 1, std::bind(&AutoFSM::rfidCallback, this, std::placeholders::_1));
+    //     "/detector/armors", 1, std::bind(&AutoFSM::armorCallback, this, std::placeholders::_1)); // 暂时不需要
+    // rfid_sub_ = this->create_subscription<rm_decision_interfaces::msg::RFID>(
+    //     "/rfid", 1, std::bind(&AutoFSM::rfidCallback, this, std::placeholders::_1)); // 可要可不要
     game_status_sub_ = this->create_subscription<rm_decision_interfaces::msg::GameStatus>(
         "/game_status", 1, std::bind(&AutoFSM::gameStatusCallback, this, std::placeholders::_1));
     enemy_sub_ = this->create_subscription<rm_decision_interfaces::msg::Enermy>(
         "/enermy", 1, std::bind(&AutoFSM::enermyCallback, this, std::placeholders::_1));
-    topics_received_ = {{"/robot_hp", false}, {"/robot_status", false}, {"/friend_location", false}, /*{"/detector/armors", false}*/{"/game_status", false}, {"/rfid", false}};// 定义的所有话题集，用于判断是否所有话题接入
+    // 需要接收的话题  联盟赛：机器人血量 机器人状态 游戏状态 （场地交互信息）
+    //               对抗赛：机器人血量 机器人状态 位置信息 游戏状态 场地交互信息
+    //对抗赛再说： topics_received_ = {{"/robot_hp", false}, {"/robot_status", false}, {"/friend_location", false}, /*{"/detector/armors", false}*/{"/game_status", false}, {"/rfid", false}};// 定义的所有话题集，用于判断是否所有话题接入
+    // 联盟赛：其实最主要就是一个信息 自身机器人状态 次主要是游戏状态 全局机器人血量不太有必要
+    topics_received_ = {{"/robot_hp", false}, {"/robot_status", false}, {"/friend_location", true}, /*{"/detector/armors", false}*/{"/game_status", false}, {"/rfid", true}};// 定义的所有话题集，用于判断是否所有话题接入
     check_all_topics_received(); // 等待初始化消息
                 };
     ~AutoFSM(){};
@@ -59,7 +64,7 @@ private:
     rclcpp::Subscription<rm_decision_interfaces::msg::FriendLocation>::SharedPtr enemy_locate_sub_;\
     rclcpp::Subscription<rm_decision_interfaces::msg::GameStatus>::SharedPtr game_status_sub_;
     // rclcpp::Subscription<rm_decision_interfaces::msg::Armor>::SharedPtr armor_sub_;
-    rclcpp::Subscription<rm_decision_interfaces::msg::RFID>::SharedPtr rfid_sub_;
+    rclcpp::Subscription<rm_decision_interfaces::msg::RFID>::SharedPtr rfid_sub_; 
     rclcpp::Subscription<rm_decision_interfaces::msg::Enermy>::SharedPtr enemy_sub_;
     std::unordered_map<std::string, bool> topics_received_; // 定义的所有话题集，用于判断是否所有话题接入
 

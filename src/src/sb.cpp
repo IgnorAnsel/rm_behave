@@ -15,10 +15,6 @@ bool Is_Can_Shoot_flag = true;
 bool Team_color = 0; // 默认红队
 bool Is_Can_Attack_1 = true;
 bool Is_Can_Attack_2 = true;
-// void AutoFSM::readYaml() // 读取yaml文件
-// {
-//     auto path = "";
-// }
 void AutoFSM::robotHpCallback(const rm_decision_interfaces::msg::AllRobotHP::SharedPtr msg)
 {
     // 处理接收到的消息
@@ -43,10 +39,6 @@ void AutoFSM::robotHpCallback(const rm_decision_interfaces::msg::AllRobotHP::Sha
     bool sb_robot_live = false; //哨兵是否存活
     Is_Onlyone_SB = false;
     Is_Onlyone_without_SB =false;
-    // for (int i = 0; i < num_robots; ++i)
-    // {
-        // if (_SHOW_AllRobotHP_)
-        //     RCLCPP_INFO(this->get_logger(), "%s HP: %d", names[i].c_str(), hp_values[i]);
         if(!Team_color)// 哨兵是红队的情况
         {
             for (int i = 0; i < num_robots / 2; ++i) // Assuming the second half of the array is the blue team

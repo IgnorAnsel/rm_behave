@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4"
+      main_tree_to_execute="BehaviorTree">
+  <BehaviorTree ID="BehaviorTree">
+    <Sequence>
+      <SubAllRobotHP topic_name="robot_hp"
+                     robot_hp="{robot_hp}"/>
+      <GetCurrentLocation current_location="{current_location}"/>
+      <SubArmors topic_name="/detector/armors"
+                 armors="{armors}"/>
+      <SubRobotStatus topic_name="robot_status"
+                      robot_status="{robot_status}"/>
+      <SubGameStatus topic_name="game_status"
+                     game_status="{game_status}"/>
+      <IfThenElse>
+        <IsGameStart message="{game_status}"/>
+        <IfThenElse>
+          <IsStatusOK message="{robot_status}"
+                      hp_threshold="100"
+                      heat_threshold="350"/>
+          <IfThenElse>
+            <IsAttaked message="{robot_status}"/>
+            <MoveAround expected_nearby_goal_count="5"
+                        expected_dis="0.3"
+                        message="{current_location}"/>
+            <SendGoal name="Attack"
+                      goal_pose="5.3;-1.35;0; 0;0;0;1"/>
+          </IfThenElse>
+          <IfThenElse>
+            <IsFriendOK message="{robot_hp}"
+                        friend_color="red"/>
+            <SendGoal name="Center"
+                      goal_pose="3;1;0; 0;0;0;1"/>
+            <SendGoal name="Home"
+                      goal_pose="0;0;0; 0;0;0;1"/>
+          </IfThenElse>
+        </IfThenElse>
+        <SendGoal name="Home"
+                  goal_pose="0;0;0; 0;0;0;1"/>
+      </IfThenElse>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="GetCurrentLocation"
+            editable="true">
+      <output_port name="current_location"
+                   default="{current_location}"/>
+    </Action>
+    <Action ID="IsAttaked"
+            editable="true">
+      <input_port name="message"
+                  default="{robot_status}"/>
+    </Action>
+    <Action ID="IsFriendOK"
+            editable="true">
+      <input_port name="message"
+                  default="{robot_hp}"/>
+      <input_port name="friend_color"
+                  default="red"/>
+    </Action>
+    <Action ID="IsGameStart"
+            editable="true">
+      <input_port name="message"
+                  default="{game_status}"/>
+    </Action>
+    <Action ID="IsStatusOK"
+            editable="true">
+      <input_port name="message"
+                  default="{robot_status}"/>
+      <input_port name="hp_threshold"
+                  default="100"/>
+      <input_port name="heat_threshold"
+                  default="350"/>
+    </Action>
+    <Action ID="IsDetectEnemy"
+            editable="true">
+      <input_port name="message"
+                  default="{armors}"/>
+    </Action>
+    <Action ID="MoveAround"
+            editable="true">
+      <input_port name="expected_nearby_goal_count"
+                  default="5"/>
+      <input_port name="expected_dis"
+                  default="0.3"/>
+      <input_port name="message"
+                  default="{current_location}"/>
+    </Action>
+    <Action ID="SendGoal"
+            editable="true">
+      <input_port name="goal_pose"
+                  default="0;0;0; 0;0;0;1"/>
+    </Action>
+    <Action ID="ScanStatus"
+            editable="true">
+      <input_port name="scan_status"
+                  default="False"/>
+    </Action>
+    <Action ID="SubAllRobotHP"
+            editable="true">
+      <input_port name="topic_name"
+                  default="robot_hp"/>
+      <output_port name="robot_hp"
+                   default="{robot_hp}"/>
+    </Action>
+    <Action ID="SubArmors"
+            editable="true">
+      <input_port name="topic_name"
+                  default="/detector/armors"/>
+      <output_port name="armors"
+                   default="{armors}"/>
+    </Action>
+    <Action ID="SubGameStatus"
+            editable="true">
+      <input_port name="topic_name"
+                  default="game_status"/>
+      <output_port name="game_status"
+                   default="{game_status}"/>
+    </Action>
+    <Action ID="SubRobotStatus"
+            editable="true">
+      <input_port name="topic_name"
+                  default="robot_status"/>
+      <output_port name="robot_status"
+                   default="{robot_status}"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

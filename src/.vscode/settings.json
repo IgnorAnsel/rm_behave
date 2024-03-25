@@ -1,0 +1,22 @@
+{
+    "python.autoComplete.extraPaths": [
+        "/home/ansel/pb_rmsimulation-master/install/rm_auto_FSM/lib/python3.10/site-packages",
+        "/home/ansel/pb_rmsimulation-master/install/rm_decision_interfaces/local/lib/python3.10/dist-packages",
+        "/home/ansel/pb_rmsimulation-master/install/fast_lio/local/lib/python3.10/dist-packages",
+        "/home/ansel/livox_ros_driver2/livox_ros_driver2_humble/install/livox_ros_driver2/local/lib/python3.10/dist-packages",
+        "/home/ansel/ws_livox/install/livox_ros_driver2/local/lib/python3.10/dist-packages",
+        "/home/ansel/my_ws/install/lslidar_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/ansel/pb_rmsimulation-master/install/rm_auto_FSM/lib/python3.10/site-packages",
+        "/home/ansel/pb_rmsimulation-master/install/rm_decision_interfaces/local/lib/python3.10/dist-packages",
+        "/home/ansel/pb_rmsimulation-master/install/fast_lio/local/lib/python3.10/dist-packages",
+        "/home/ansel/livox_ros_driver2/livox_ros_driver2_humble/install/livox_ros_driver2/local/lib/python3.10/dist-packages",
+        "/home/ansel/ws_livox/install/livox_ros_driver2/local/lib/python3.10/dist-packages",
+        "/home/ansel/my_ws/install/lslidar_msgs/local/lib/python3.10/dist-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}

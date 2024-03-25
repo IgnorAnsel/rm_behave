@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4"
+      main_tree_to_execute="Untitled">
+  <BehaviorTree ID="Untitled">
+    <Sequence>
+      <ForceSuccessOnTimeout_topic timeout_ms="10000"
+                                   w_true="is_topic_ok">
+        <IsMsgOk/>
+      </ForceSuccessOnTimeout_topic>
+      <IfThenElse>
+        <ForceSuccessOnTimeout_game timeout_ms="40000"
+                                    w_true="is_game_start">
+          <IsGameStart/>
+        </ForceSuccessOnTimeout_game>
+        <Sequence>
+          <ForceSuccessOnTimeout timeout_ms="30000"
+                                 w_true="nothing">
+            <SendGoal goal_pose="3.82;-1.72;0"/>
+          </ForceSuccessOnTimeout>
+          <IfThenElse>
+            <Is_First_Begin/>
+            <Sequence>
+              <ForceSuccessOnTimeout timeout_ms="5000"
+                                     w_true="nothing">
+                <ScanEnermy/>
+              </ForceSuccessOnTimeout>
+              <Attack attack="true"/>
+              <Sleep msec="30000"/>
+              <Attack attack="false"/>
+              <SendGoal goal_pose="4.01;2.62;0"/>
+              <IfThenElse>
+                <Is_Hp_Low/>
+                <Sequence>
+                  <SendGoal goal_pose="-2.48;3.97;0"/>
+                  <Is_Hp_Full/>
+                </Sequence>
+                <SendGoal goal_pose="4.01;2.62;0"/>
+              </IfThenElse>
+            </Sequence>
+            <SubTree ID="main"/>
+          </IfThenElse>
+        </Sequence>
+        <IfThenElse>
+          <IsRotate/>
+          <Rotate rotate="true"/>
+          <Rotate rotate="false"/>
+        </IfThenElse>
+      </IfThenElse>
+    </Sequence>
+  </BehaviorTree>
+
+  <BehaviorTree ID="backorattack">
+    <IfThenElse>
+      <Is_Hp_Low/>
+      <Sequence>
+        <ForceSuccessOnTimeout timeout_ms="10000"
+                               w_true="nothing">
+          <SendGoal goal_pose="-2.48;3.97;0"/>
+        </ForceSuccessOnTimeout>
+        <IfThenElse>
+          <ScanEnermy/>
+          <Sequence>
+            <Attack attack="true"/>
+            <Sleep msec="2000"/>
+            <Attack attack="false"/>
+          </Sequence>
+          <Attack attack="false"/>
+        </IfThenElse>
+        <Is_Hp_Full/>
+        <SendGoal goal_pose="4.01;2.62;0"/>
+      </Sequence>
+      <Sequence>
+        <SendGoal goal_pose="4.01;2.62;0"/>
+        <ScanEnermy/>
+        <Attack attack="true"/>
+        <Sleep msec="1000"/>
+        <Attack attack="false"/>
+      </Sequence>
+    </IfThenElse>
+  </BehaviorTree>
+
+  <BehaviorTree ID="justattack">
+    <IfThenElse>
+      <ScanEnermy/>
+      <Sequence>
+        <Attack attack="true"/>
+        <Sleep msec="2000"/>
+        <Attack attack="false"/>
+      </Sequence>
+      <Attack attack="false"/>
+    </IfThenElse>
+  </BehaviorTree>
+
+  <BehaviorTree ID="main">
+    <Sequence>
+      <IsGameOver/>
+      <SubTree ID="backorattack"
+               _autoremap="false"/>
+      <IfThenElse>
+        <Is_onlyone_sb/>
+        <SubTree ID="justattack"/>
+        <AlwaysSuccess/>
+      </IfThenElse>
+      <IfThenElse>
+        <Is_onlyone_without_sb/>
+        <Sequence>
+          <SendGoal goal_pose="6.01;1.19;0"/>
+          <SubTree ID="backorattack"
+                   _autoremap="false"/>
+        </Sequence>
+        <IfThenElse>
+          <Is_Hp_Low/>
+          <Sequence>
+            <SendGoal goal_pose="-2.48;3.97;0"/>
+            <Is_Hp_Full/>
+            <SendGoal goal_pose="4.01;2.62;0"/>
+          </Sequence>
+          <Sequence>
+            <SubTree ID="justattack"/>
+          </Sequence>
+        </IfThenElse>
+      </IfThenElse>
+      <AlwaysFailure/>
+    </Sequence>
+  </BehaviorTree>
+
+  <!-- Description of Node Models (used by Groot) -->
+  <TreeNodesModel>
+    <Action ID="Attack"
+            editable="true">
+      <input_port name="attack"/>
+    </Action>
+    <Decorator ID="ForceSuccessOnTimeout"
+               editable="true">
+      <input_port name="timeout_ms"/>
+      <input_port name="w_true"/>
+    </Decorator>
+    <Decorator ID="ForceSuccessOnTimeout_game"
+               editable="true">
+      <input_port name="timeout_ms"/>
+      <input_port name="w_true"/>
+    </Decorator>
+    <Decorator ID="ForceSuccessOnTimeout_topic"
+               editable="true">
+      <input_port name="timeout_ms"/>
+      <input_port name="w_true"/>
+    </Decorator>
+    <Action ID="IsGameOver"
+            editable="true"/>
+    <Action ID="IsGameStart"
+            editable="true"/>
+    <Action ID="IsMsgOk"
+            editable="true"/>
+    <Action ID="IsRotate"
+            editable="true"/>
+    <Action ID="Is_First_Begin"
+            editable="true"/>
+    <Action ID="Is_Hp_Full"
+            editable="true"/>
+    <Action ID="Is_Hp_Low"
+            editable="true"/>
+    <Action ID="Is_onlyone_sb"
+            editable="true"/>
+    <Action ID="Is_onlyone_without_sb"
+            editable="true"/>
+    <Action ID="Rotate"
+            editable="true">
+      <input_port name="rotate"/>
+    </Action>
+    <Action ID="ScanEnermy"
+            editable="true"/>
+    <Action ID="SendGoal"
+            editable="true">
+      <input_port name="goal_pose"/>
+    </Action>
+  </TreeNodesModel>
+
+</root>

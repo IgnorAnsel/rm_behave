@@ -1,0 +1,23 @@
+<root main_tree_to_execute="MainTree">
+    <BehaviorTree ID="MainTree">
+        <!-- 初始化导航 -->
+        <Sequence name="NavigateWithRecovery">
+            <ComputePathToPose goal="{goal}" path="{path}"/>
+            <FollowPath path="{path}"/>
+            <RecoveryNode number_of_retries="3">
+                <SequenceStar name="RecoveryActions">
+                    <ClearCostmapAroundRobot/>
+                    <Spin/>
+                    <Wait delay="2"/>
+                </SequenceStar>
+            </RecoveryNode>
+        </Sequence>
+
+        <!-- 自动探索 -->
+        <Fallback name="ExploreFallback">
+            <GoalReached/>
+            <Explore/>
+        </Fallback>
+    </BehaviorTree>
+</root>
+

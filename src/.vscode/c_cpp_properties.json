@@ -1,0 +1,30 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/home/ansel/pb_rmsimulation-master/install/ros2_livox_simulation/include/**",
+        "/home/ansel/pb_rmsimulation-master/install/rm_decision_interfaces/include/**",
+        "/home/ansel/pb_rmsimulation-master/install/pointcloud_to_laserscan/include/**",
+        "/home/ansel/pb_rmsimulation-master/install/linefit_ground_segmentation/include/**",
+        "/home/ansel/pb_rmsimulation-master/install/imu_complementary_filter/include/**",
+        "/home/ansel/pb_rmsimulation-master/install/icp_localization_ros2/include/**",
+        "/home/ansel/pb_rmsimulation-master/install/fast_lio/include/**",
+        "/home/ansel/livox_ros_driver2/livox_ros_driver2_humble/install/livox_ros_driver2/include/**",
+        "/home/ansel/ws_livox/install/livox_ros_driver2/include/**",
+        "/home/ansel/my_ws/install/lslidar_msgs/include/**",
+        "/opt/ros/humble/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}

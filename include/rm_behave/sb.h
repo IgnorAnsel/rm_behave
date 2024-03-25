@@ -26,6 +26,7 @@ public:
     robot_status_sub_ = this->create_subscription<rm_decision_interfaces::msg::RobotStatus>(
         "/robot_status", 1, std::bind(&AutoFSM::robotStatusCallback, this, std::placeholders::_1));
     // 也许取消下面这个能降低负担？
+    // 联盟赛唯有根据血量来判断是否进攻对面基地时才使用
     robot_hp_sub_ = this->create_subscription<rm_decision_interfaces::msg::AllRobotHP>(
         "/robot_hp", 1, std::bind(&AutoFSM::robotHpCallback, this, std::placeholders::_1));
     // enemy_locate_sub_ = this->create_subscription<rm_decision_interfaces::msg::FriendLocation>(

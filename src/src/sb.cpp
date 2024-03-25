@@ -15,6 +15,7 @@ bool Is_Can_Shoot_flag = true;
 bool Team_color = 0; // 默认红队
 bool Is_Can_Attack_1 = true;
 bool Is_Can_Attack_2 = true;
+int Game_progress = 0;
 void AutoFSM::robotHpCallback(const rm_decision_interfaces::msg::AllRobotHP::SharedPtr msg)
 {
     // 处理接收到的消息
@@ -200,8 +201,13 @@ void AutoFSM::gameStatusCallback(const rm_decision_interfaces::msg::GameStatus::
         RCLCPP_INFO(this->get_logger(), "Game Remain Time: %d", msg->stage_remain_time);
     }
     Remain_time = msg->stage_remain_time;
-    if(Remain_time <= 0)
+    Game_progress = msg->game_progress;
+    if (Game_progress == 4)
         is_game_start = true;
+    else
+        is_game_start = false;
+    // if(Remain_time <= 0)
+    //     is_game_start = true;
     check_all_topics_received();
 }
 // void AutoFSM::armorCallback(const rm_decision_interfaces::msg::Armor::SharedPtr msg)

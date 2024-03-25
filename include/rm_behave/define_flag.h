@@ -21,3 +21,4 @@ extern bool Team_color; //0->红 1->蓝
 extern bool Is_Can_Shoot_flag;
 extern bool Is_Can_Attack_1;
 extern bool Is_Can_Attack_2;
+extern int Game_progress;
